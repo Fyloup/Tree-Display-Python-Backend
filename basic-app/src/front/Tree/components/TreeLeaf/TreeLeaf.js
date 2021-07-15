@@ -1,30 +1,33 @@
 import React from 'react';
-import { useState } from 'react';
 
-import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 
 import TreeBranch from '../TreeBranch/TreeBranch';
 
 import styles from './Styles';
 
-const TreeLeaf = ({id, nodeData, parentOpen}) => {
+/* 
+    Composant qui permet au parent de générer ses enfants
+*/
+
+const TreeLeaf = ({nodeData, parentOpen}) => {
 
     const classes = styles();
-    const [isOpen, setIsOpen] = useState(false);
-
 
     return (
         <div className={classes.root}>
-            {nodeData.map((item, id) => {
+            {nodeData.map((item, iterator) => {
             
+                let isLast = iterator === nodeData.length - 1 ? true : false;
+
+                // Si l'enfant est aussi un parent
                 if (item.hasOwnProperty("children")) {
 
                     if (parentOpen) {
 
                         return (
-                            <div key={'leafDiv-' + id}>
-                                <TreeBranch key={'leaf-' + id} data={item} node={item} isRoot={false} id={item.id}/>
+                            <div key={'leafDiv-' + item.id}>
+                                <TreeBranch key={'leaf-' + item.id} data={item} node={item} isRoot={false} isLast={isLast} id={item.id}/>
                             </div>
                         );
                     }
@@ -34,12 +37,14 @@ const TreeLeaf = ({id, nodeData, parentOpen}) => {
                     if (parentOpen) {
 
                         return (
-                            <div key={'leafDivChildless-' + id}>
-                                <Button key={'leafBtnChildless-' + id}>{item.employees}</Button>
+                            <div className={classes.childContainer} key={'leafDivChildless-' + item.employees}>
+                                <Button key={'leafBtnChildless-' + item.employees} disabled={true}>{item.employees + ' employés'}</Button>
                             </div>
                         )
                     }
                 }
+
+                return(null)
             })}
         </div>
     );
