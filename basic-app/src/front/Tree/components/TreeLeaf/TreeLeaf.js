@@ -21,7 +21,7 @@ const TreeLeaf = ({nodeData, parentOpen}) => {
                 let isLast = iterator === nodeData.length - 1 ? true : false;
 
                 // Si l'enfant est aussi un parent
-                if (item.hasOwnProperty("children")) {
+                if (item.hasOwnProperty("children") && item.hasOwnProperty("id")) {
 
                     if (parentOpen) {
 
@@ -32,7 +32,7 @@ const TreeLeaf = ({nodeData, parentOpen}) => {
                         );
                     }
 
-                } else {
+                } else if (item.hasOwnProperty("employees")) {
 
                     if (parentOpen) {
 

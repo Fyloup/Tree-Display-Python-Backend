@@ -46,22 +46,26 @@ const Tree = () => {
 
                     let isLast = iterator === tree.length -1 ? true : false;
 
-                    return (
-                        <div key={'mainContainer-' + item.id}>
-                            <div key={'controlContainer-' + item.id} className={classes.contentContainer}>
-                                <div key={'moveBtnContainer-' + item.id} className={classes.moveBtnContainer}>
-                                    <IconButton key={'moveBtn-' + item.id} className={classes.moveBtn} onClick={!isLast ? () => moveNode(item.id) : null} disabled={isLast}>
-                                        <ArrowDownwardRounded key={'moveBtnIcon-' + item.id}/>
-                                    </IconButton>
-                                    <Divider key={'moveBtnDivider-' + item.id} orientation={'vertical'}/>
+                    if (!item.hasOwnProperty("id")) {
+                        return (<div>Invalid data format</div>)
+                    } else {
+                        return (
+                            <div key={'mainContainer-' + item.id}>
+                                <div key={'controlContainer-' + item.id} className={classes.contentContainer}>
+                                    <div key={'moveBtnContainer-' + item.id} className={classes.moveBtnContainer}>
+                                        <IconButton key={'moveBtn-' + item.id} className={classes.moveBtn} onClick={!isLast ? () => moveNode(item.id) : null} disabled={isLast}>
+                                            <ArrowDownwardRounded key={'moveBtnIcon-' + item.id}/>
+                                        </IconButton>
+                                        <Divider key={'moveBtnDivider-' + item.id} orientation={'vertical'}/>
+                                    </div>
+                                    <TreeBranch key={'branch-' + item.id} data={tree} node={item} setTree={setTree} isRoot={true} id={item.id} isLast={isLast}/>
                                 </div>
-                                <TreeBranch key={'branch-' + item.id} data={tree} node={item} setTree={setTree} isRoot={true} id={item.id} isLast={isLast}/>
+                                <div>
+                                    {!isLast ? <Divider key={'branchDivider-' + item.id} className={classes.divider}/> : null}
+                                </div>
                             </div>
-                            <div>
-                                {!isLast ? <Divider key={'branchDivider-' + item.id} className={classes.divider}/> : null}
-                            </div>
-                        </div>
-                    )
+                        )
+                    }
                     })
                 }
             </Paper>
